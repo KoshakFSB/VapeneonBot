@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Совместный просмотр</title>
+    <style>
+        body { font-family: Arial; background: #1e1e1e; color: white; padding: 10px; }
+        #video { width: 100%; border-radius: 10px; }
+        #chat { height: 200px; overflow-y: scroll; border: 1px solid #444; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <video id="video" controls></video>
+    <div id="chat"></div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        const video = document.getElementById("video");
+        const chat = document.getElementById("chat");
+        const ws = new WebSocket("ws://" + window.location.host + "/ws");
+
+        // Получаем URL видео из параметров
+        const urlParams = new URLSearchParams(window.location.search);
+        const videoUrl = urlParams.get("video");
+        if (videoUrl) video.src = videoUrl;
+
+        // Синхронизация
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.type === "sync") {
+                video.currentTime = data.current_time;
+                if (data.is_playing) video.play();
+                else video.pause();
+            }
+        };
+
+        // Отправка событий
+        video.addEventListener("play", () => {
+            ws.send(JSON.stringify({
+                type: "play",
+                time: video.currentTime
+            }));
+        });
+
+        video.addEventListener("pause", () => {
+            ws.send(JSON.stringify({
+                type: "pause",
+                time: video.currentTime
+            }));
+        });
+
+        tg.expand();
+        tg.ready();
+    </script>
+</body>
+</html>
