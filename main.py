@@ -21,8 +21,6 @@ from aiogram.enums import ChatMemberStatus, ChatType
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from logging.handlers import RotatingFileHandler
 
-from config import BOT_TOKEN, ADMIN_IDS, CHAT_ID
-
 # Создаем необходимые директории
 os.makedirs("data", exist_ok=True)
 os.makedirs("logs", exist_ok=True)
@@ -37,6 +35,12 @@ logging.basicConfig(
     ]
 )
 logger = logging.getLogger(__name__)
+
+# Конфигурация бота из переменных окружения
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+ADMIN_IDS = list(map(int, os.getenv("ADMIN_IDS").split(','))) if os.getenv("ADMIN_IDS") else []
+CHAT_ID = int(os.getenv("CHAT_ID"))
+WARN_EXPIRE_DAYS = int(os.getenv("WARN_EXPIRE_DAYS", "7"))
 
 # Ограничения
 MAX_ADS_PER_DAY = int(os.getenv("MAX_ADS_PER_DAY", "5"))
