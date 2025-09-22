@@ -21,6 +21,8 @@ from aiogram.enums import ChatMemberStatus, ChatType
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from logging.handlers import RotatingFileHandler
 
+from config import BOT_TOKEN, ADMIN_IDS, CHAT_ID
+
 # Создаем необходимые директории
 os.makedirs("data", exist_ok=True)
 os.makedirs("logs", exist_ok=True)
@@ -51,8 +53,8 @@ ADMIN_IDS = list(map(int, ADMIN_IDS_STR.split(',')))
 CHAT_ID_STR = os.getenv("CHAT_ID")
 if not CHAT_ID_STR:
     logger.error("❌ CHAT_ID не найден в переменных окружения")
-    raise ValueError("CHAT_ID не установлен")
-CHAT_ID = int(CHAT_ID_STR)
+     ValueError("CHAT_ID не установлен")
+
 
 # Ограничения
 MAX_ADS_PER_DAY = int(os.getenv("MAX_ADS_PER_DAY", "5"))
