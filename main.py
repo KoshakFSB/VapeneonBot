@@ -37,9 +37,9 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Конфигурация бота из переменных окружения
-BOT_TOKEN = os.getenv("BOT_TOKEN", "7271080423:AAHvrgBXya-82CRosyxkenpbfvO6LnNsnnA")
-ADMIN_IDS = list(map(int, os.getenv("ADMIN_IDS", "1014311717,7461610956").split(',')))
-CHAT_ID = int(os.getenv("CHAT_ID", "-1002125767388"))
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+ADMIN_IDS = list(map(int, os.getenv("ADMIN_IDS").split(','))) if os.getenv("ADMIN_IDS") else []
+CHAT_ID = int(os.getenv("CHAT_ID"))
 WARN_EXPIRE_DAYS = int(os.getenv("WARN_EXPIRE_DAYS", "7"))
 
 # Ограничения
