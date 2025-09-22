@@ -38,9 +38,21 @@ logger = logging.getLogger(__name__)
 
 # Конфигурация бота из переменных окружения
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-ADMIN_IDS = list(map(int, os.getenv("ADMIN_IDS").split(','))) if os.getenv("ADMIN_IDS") else []
-CHAT_ID = int(os.getenv("CHAT_ID"))
-WARN_EXPIRE_DAYS = int(os.getenv("WARN_EXPIRE_DAYS", "7"))
+if not BOT_TOKEN:
+    logger.error("❌ BOT_TOKEN не найден в переменных окружения")
+    raise ValueError("BOT_TOKEN не установлен")
+
+ADMIN_IDS_STR = os.getenv("ADMIN_IDS")
+if not ADMIN_IDS_STR:
+    logger.error("❌ ADMIN_IDS не найден в переменных окружения")
+    raise ValueError("ADMIN_IDS не установлен")
+ADMIN_IDS = list(map(int, ADMIN_IDS_STR.split(',')))
+
+CHAT_ID_STR = os.getenv("CHAT_ID")
+if not CHAT_ID_STR:
+    logger.error("❌ CHAT_ID не найден в переменных окружения")
+    raise ValueError("CHAT_ID не установлен")
+CHAT_ID = int(CHAT_ID_STR)
 
 # Ограничения
 MAX_ADS_PER_DAY = int(os.getenv("MAX_ADS_PER_DAY", "5"))
