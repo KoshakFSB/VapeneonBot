@@ -16,7 +16,7 @@ from aiogram.types import (
     InlineKeyboardMarkup,
     InlineKeyboardButton,
     ChatAdministratorRights
-)get_active
+)
 from aiogram.enums import ChatMemberStatus, ChatType
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from logging.handlers import RotatingFileHandler
