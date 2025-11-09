@@ -1,6 +1,6 @@
 import os
 import re
-import asynget_complaintscio
+import asyncio
 import logging
 import random
 import sqlite3
