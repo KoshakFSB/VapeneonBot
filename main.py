@@ -110,7 +110,7 @@ MIN_AD_INTERVAL = timedelta(hours=MIN_AD_INTERVAL_HOURS)
 MUTE_DURATION = timedelta(days=MUTE_DURATION_DAYS)
 
 # ID чата для журнала модерации
-MOD_LOG_CHAT_ID = -5177704151
+MOD_LOG_CHAT_ID = -1003838979861
 
 # Инициализация базы данных
 def init_db():
