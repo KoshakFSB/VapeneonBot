@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VapeNeon — Официальный сайт</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;800;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#060810;--bg2:#0c1020;--bg3:#111827;--border:rgba(255,255,255,0.06);--accent:#7C3AED;--accent2:#06B6D4;--accent3:#F59E0B;--red:#EF4444;--green:#10B981;--text:#E2E8F0;--text2:#94A3B8;--text3:#475569;--glow:rgba(124,58,237,0.4)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'JetBrains Mono',monospace;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.bg-grid{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(124,58,237,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,0.03) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+.bg-orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;animation:orb-drift 18s ease-in-out infinite alternate}
+.orb1{width:600px;height:600px;background:rgba(124,58,237,0.1);top:-150px;left:-150px}
+.orb2{width:400px;height:400px;background:rgba(6,182,212,0.07);bottom:-80px;right:-80px;animation-delay:-7s}
+.orb3{width:300px;height:300px;background:rgba(245,158,11,0.05);top:40%;left:55%;animation-delay:-4s}
+@keyframes orb-drift{0%{transform:translate(0,0) scale(1)}100%{transform:translate(40px,30px) scale(1.1)}}
+body::after{content:'';position:fixed;inset:0;z-index:1;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;opacity:.4}
+
+/* ── LAYOUT ── */
+.shell{position:relative;z-index:2;display:flex;height:100vh}
+
+/* ── SIDEBAR ── */
+.sidebar{width:240px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;position:relative}
+.sidebar::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(124,58,237,0.06) 0%,transparent 60%);pointer-events:none}
+.sidebar-logo{padding:24px 20px;border-bottom:1px solid var(--border)}
+.logo-mark{display:flex;align-items:center;gap:10px}
+.logo-icon{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 0 20px var(--glow);flex-shrink:0}
+.logo-text{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:800;letter-spacing:.05em;background:linear-gradient(90deg,#fff,var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo-sub{font-size:8px;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-top:2px}
+.nav-section{padding:16px 20px 6px;font-size:8px;color:var(--text3);letter-spacing:.15em;text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 20px;cursor:pointer;border-left:2px solid transparent;transition:all .2s;font-size:11px;color:var(--text2);user-select:none}
+.nav-item:hover{color:var(--text);background:rgba(255,255,255,0.03)}
+.nav-item.active{color:#fff;border-left-color:var(--accent);background:linear-gradient(90deg,rgba(124,58,237,0.12),transparent)}
+.nav-icon{width:16px;text-align:center;font-size:13px;flex-shrink:0}
+.nav-badge{margin-left:auto;font-size:8px;padding:2px 6px;border-radius:20px;background:var(--red);color:#fff;font-weight:700;animation:pulse-badge 2s infinite}
+@keyframes pulse-badge{0%,100%{opacity:1}50%{opacity:.5}}
+.sidebar-footer{margin-top:auto;padding:14px 20px;border-top:1px solid var(--border)}
+.admin-pill{display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.2);border-radius:10px;cursor:pointer;transition:all .2s}
+.admin-pill:hover{background:rgba(124,58,237,0.2)}
+.admin-pill-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:blink 2s infinite;flex-shrink:0}
+.admin-pill-text{font-size:9px;color:var(--text2);flex:1}
+.admin-pill-name{font-size:9px;color:var(--accent2);font-weight:600}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ── MAIN ── */
+.main{flex:1;overflow-y:auto;overflow-x:hidden}
+.main::-webkit-scrollbar{width:4px}
+.main::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:4px}
+.page{display:none;animation:page-in .35s cubic-bezier(.4,0,.2,1)}
+.page.active{display:block}
+@keyframes page-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── PAGE HEADER ── */
+.page-header{padding:48px 32px 0;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.page-title{font-family:'Unbounded',sans-serif;font-size:20px;font-weight:800;letter-spacing:-.02em}
+.page-sub{color:var(--text2);font-size:10px;margin-top:5px}
+
+/* ── SECTIONS ── */
+.section{padding:24px 32px}
+.section-title{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── STATS ── */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;padding:24px 32px 0}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s}
+.stat-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,0.4)}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:14px 14px 0 0}
+.stat-label{font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:.12em}
+.stat-value{font-family:'Unbounded',sans-serif;font-size:26px;font-weight:800;margin:6px 0 2px;background:linear-gradient(90deg,#fff,var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-delta{font-size:9px;color:var(--green)}
+.stat-delta.neg{color:var(--red)}
+.stat-icon{position:absolute;right:14px;top:14px;font-size:20px;opacity:.12}
+
+/* ── TABLE ── */
+.table-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.table-toolbar{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.search-input{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:inherit;font-size:11px;width:200px;outline:none;transition:border-color .2s}
+.search-input:focus{border-color:var(--accent)}
+.search-input::placeholder{color:var(--text3)}
+.filter-btn{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text2);font-family:inherit;font-size:9px;cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:.1em}
+.filter-btn:hover,.filter-btn.active{border-color:var(--accent);color:#fff}
+table{width:100%;border-collapse:collapse}
+thead th{padding:10px 18px;font-size:8px;text-transform:uppercase;letter-spacing:.12em;color:var(--text3);text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--border);transition:background .15s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:rgba(255,255,255,0.02)}
+tbody td{padding:12px 18px;font-size:11px;color:var(--text2);vertical-align:middle}
+tbody td:first-child{color:var(--text)}
+.badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:8px;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+.badge-pending{background:rgba(245,158,11,0.15);color:var(--accent3)}
+.badge-resolved{background:rgba(16,185,129,0.15);color:var(--green)}
+.badge-rejected{background:rgba(239,68,68,0.15);color:var(--red)}
+.badge-info{background:rgba(6,182,212,0.15);color:var(--accent2)}
+.action-btn{background:none;border:1px solid var(--border);border-radius:6px;padding:5px 10px;color:var(--text2);font-family:inherit;font-size:9px;cursor:pointer;transition:all .2s}
+.action-btn:hover{border-color:var(--accent);color:#fff}
+.action-btn.danger:hover{border-color:var(--red);color:var(--red)}
+.action-btn.success:hover{border-color:var(--green);color:var(--green)}
+
+/* ── FORM ── */
+.form-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:26px;position:relative;overflow:hidden}
+.form-card.complaint-form::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--red),var(--accent))}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-group.full{grid-column:1/-1}
+.form-label{font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:.12em}
+.form-input,.form-select,.form-textarea{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-family:inherit;font-size:12px;outline:none;transition:border-color .2s,box-shadow .2s;resize:none}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,58,237,0.1)}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--text3)}
+.form-select{cursor:pointer}
+.form-select option{background:var(--bg3)}
+.form-textarea{height:90px}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#9333EA);border:none;border-radius:10px;padding:12px 24px;cursor:pointer;color:#fff;font-family:inherit;font-size:12px;font-weight:600;letter-spacing:.05em;transition:all .25s;box-shadow:0 4px 18px var(--glow);position:relative;overflow:hidden}
+.btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(255,255,255,0.15),transparent);transform:translateX(-100%);transition:transform .5s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px var(--glow)}
+.btn-primary:hover::before{transform:translateX(100%)}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-secondary{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 24px;cursor:pointer;color:var(--text2);font-family:inherit;font-size:12px;transition:all .2s}
+.btn-secondary:hover{border-color:var(--accent);color:#fff}
+
+/* ── RULES ── */
+.rules-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.rule-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px;position:relative;overflow:hidden;transition:transform .25s,border-color .25s}
+.rule-card:hover{transform:translateY(-3px);border-color:rgba(124,58,237,0.25)}
+.rule-card-accent{position:absolute;top:0;left:0;width:3px;height:100%;border-radius:14px 0 0 14px}
+.rule-num{font-family:'Unbounded',sans-serif;font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;padding-left:10px}
+.rule-title{font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700;margin-bottom:8px;line-height:1.4;padding-left:10px}
+.rule-body{font-size:10px;color:var(--text2);line-height:1.7;padding-left:10px;white-space:pre-line}
+.rule-penalty{margin-top:10px;margin-left:10px;padding:7px 10px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.15);border-radius:7px;font-size:9px;color:var(--red)}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.info-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px;position:relative;overflow:hidden;transition:transform .25s,border-color .25s}
+.info-card:hover{transform:translateY(-3px);border-color:rgba(6,182,212,0.25)}
+.info-card-icon{font-size:22px;margin-bottom:12px;display:block}
+.info-card-title{font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;margin-bottom:8px}
+.info-card-body{font-size:10px;color:var(--text2);line-height:1.7;white-space:pre-line}
+
+/* ── MY COMPLAINTS ── */
+.my-complaint-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:12px;position:relative;overflow:hidden;transition:border-color .2s}
+.my-complaint-card:hover{border-color:rgba(124,58,237,0.25)}
+.mc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+.mc-id{font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700}
+.mc-meta{font-size:9px;color:var(--text3);margin-bottom:8px}
+.mc-desc{font-size:11px;color:var(--text2);margin-bottom:10px}
+.mc-comment{background:var(--bg3);border:1px solid rgba(16,185,129,0.2);border-radius:10px;padding:12px;font-size:11px;color:var(--text);margin-top:10px}
+.mc-comment-label{font-size:8px;color:var(--green);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;font-weight:700}
+
+/* ── BROADCAST ── */
+.broadcast-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:22px}
+.bc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.bc-title{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700}
+.bc-timer{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--accent2);padding:5px 12px;background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);border-radius:20px}
+.bc-dot{width:5px;height:5px;border-radius:50%;background:var(--accent2);animation:blink 1.5s infinite}
+.tabs-mini{display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap}
+.tab-mini{padding:5px 12px;border-radius:8px;font-size:8px;text-transform:uppercase;letter-spacing:.1em;background:var(--bg3);border:1px solid var(--border);cursor:pointer;color:var(--text2);transition:all .2s}
+.tab-mini.active{background:rgba(124,58,237,0.2);border-color:var(--accent);color:#fff}
+.message-preview{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:11px;line-height:1.8;color:var(--text);white-space:pre-wrap;font-family:inherit;max-height:200px;overflow-y:auto}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.75);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;padding:16px}
+.modal-overlay.open{opacity:1;pointer-events:auto}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:30px;width:480px;max-width:100%;max-height:85vh;overflow-y:auto;transform:scale(.94) translateY(20px);transition:transform .35s cubic-bezier(.34,1.56,.64,1);position:relative}
+.modal-overlay.open .modal{transform:scale(1) translateY(0)}
+.modal-close{position:absolute;top:14px;right:14px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:13px;transition:all .2s}
+.modal-close:hover{border-color:var(--red);color:var(--red)}
+.modal-title{font-family:'Unbounded',sans-serif;font-size:16px;font-weight:800;margin-bottom:18px}
+.detail-row{display:flex;gap:8px;margin-bottom:9px;font-size:11px}
+.detail-key{color:var(--text3);min-width:130px;flex-shrink:0}
+.detail-val{color:var(--text);word-break:break-all}
+
+/* ── AUTH MODAL ── */
+.auth-modal{width:380px}
+.auth-modal .modal-title{background:linear-gradient(90deg,#fff,var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;right:24px;z-index:999;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:14px 20px;display:flex;align-items:center;gap:12px;box-shadow:0 20px 50px rgba(0,0,0,0.5);transform:translateY(100px);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);max-width:320px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-icon{font-size:18px;flex-shrink:0}
+.toast-title{font-size:11px;font-weight:600;color:var(--text)}
+.toast-msg{font-size:9px;color:var(--text2);margin-top:2px}
+.toast-bar{position:absolute;bottom:0;left:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:0 0 14px 14px;animation:tbar 3s linear forwards}
+@keyframes tbar{from{width:100%}to{width:0}}
+
+/* ── MISC ── */
+.spinner{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;display:inline-block;margin-right:6px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty{padding:50px 20px;text-align:center;color:var(--text3)}
+.empty-icon{font-size:36px;margin-bottom:10px;opacity:.4}
+.empty-text{font-size:11px}
+.chart-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:22px}
+.chart-bars{display:flex;align-items:flex-end;gap:5px;height:72px;margin-top:14px}
+.chart-bar{flex:1;background:rgba(124,58,237,0.28);border-radius:4px 4px 0 0;position:relative;transition:background .2s;cursor:pointer}
+.chart-bar:hover{background:rgba(124,58,237,0.6)}
+.chart-bar.hi{background:linear-gradient(180deg,var(--accent),rgba(124,58,237,0.4))}
+.chart-bar-tip{position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:3px 7px;font-size:8px;white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none}
+.chart-bar:hover .chart-bar-tip{opacity:1}
+.chart-labels{display:flex;gap:5px;margin-top:5px}
+.chart-label{flex:1;font-size:7px;color:var(--text3);text-align:center}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:4px}
+
+@media(max-width:700px){
+  .sidebar{width:44px}
+  .sidebar-logo .logo-text,.sidebar-logo .logo-sub,.nav-item span:not(.nav-icon),.nav-section,.nav-badge,.admin-pill-text,.admin-pill-name{display:none}
+  .nav-item{padding:13px;justify-content:center;border-left:none}
+  .nav-item.active{border-left:none;background:rgba(124,58,237,0.12)}
+  .admin-pill{padding:8px;justify-content:center}
+  .page-header,.stats-row,.section{padding-left:10px;padding-right:10px}
+  .page-title{font-size:16px}
+  .stat-value{font-size:20px}
+  table{font-size:10px}
+  thead th{padding:8px 10px;font-size:7px}
+  tbody td{padding:10px 10px;font-size:10px}
+  .form-grid{grid-template-columns:1fr}
+  .form-group.full{grid-column:1}
+  .rules-grid,.info-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-orb orb1"></div>
+<div class="bg-orb orb2"></div>
+<div class="bg-orb orb3"></div>
+
+<div class="shell">
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">
+      <div class="logo-icon">💨</div>
+      <div><div class="logo-text">VAPENEON</div><div class="logo-sub">Официальный сайт</div></div>
+    </div>
+  </div>
+
+  <div class="nav-section">Главное</div>
+  <div class="nav-item active" onclick="go('home',this)"><span class="nav-icon">🏠</span><span>Главная</span></div>
+  <div class="nav-item" onclick="go('rules',this)"><span class="nav-icon">📜</span><span>Правила</span></div>
+  <div class="nav-item" onclick="go('complaint',this)"><span class="nav-icon">⚡</span><span>Подать жалобу</span></div>
+  <div class="nav-item" onclick="go('mycomplaints',this)"><span class="nav-icon">📬</span><span>Мои жалобы</span></div>
+
+  <div class="nav-section" id="admin-nav-section" style="display:none">Администратор</div>
+  <div class="nav-item" id="nav-dashboard" style="display:none" onclick="go('dashboard',this)"><span class="nav-icon">◎</span><span>Обзор</span></div>
+  <div class="nav-item" id="nav-allcomplaints" style="display:none" onclick="go('allcomplaints',this)"><span class="nav-icon">📋</span><span>Все жалобы</span><span class="nav-badge" id="complaint-badge">0</span></div>
+  <div class="nav-item" id="nav-users" style="display:none" onclick="go('users',this)"><span class="nav-icon">👤</span><span>Пользователи</span></div>
+  <div class="nav-item" id="nav-logs" style="display:none" onclick="go('logs',this)"><span class="nav-icon">⟲</span><span>Логи</span></div>
+
+  <div class="sidebar-footer">
+    <div class="status-dot">
+      <div class="dot" id="pill-dot" style="background:var(--text3);box-shadow:none;animation:none"></div>
+      <span id="pill-name" style="font-size:9px;color:var(--text2)"></span>
+    </div>
+  </div>
+</aside>
+
+<!-- ── ADMIN BTN TOP RIGHT ── -->
+<div style="position:fixed;top:12px;right:14px;z-index:50">
+  <button onclick="openAuthModal()" id="admin-top-btn" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:6px 13px;color:var(--text2);font-family:inherit;font-size:9px;cursor:pointer;transition:all .2s;letter-spacing:.04em;display:flex;align-items:center;gap:7px" id="auth-top-btn">
+    <span id="pill-dot2" style="width:5px;height:5px;border-radius:50%;background:var(--text3);flex-shrink:0;display:inline-block;transition:all .3s"></span>
+    <span id="pill-label">Авторизоваться</span>
+  </button>
+</div>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+  <!-- HOME -->
+  <div class="page active" id="page-home">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Добро пожаловать 💨</div>
+        <div class="page-sub">Официальный сайт чата VapeNeon</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="info-grid">
+        <div class="info-card" style="cursor:pointer" onclick="go('rules',document.querySelector('[onclick*=rules]'))">
+          <span class="info-card-icon">📜</span>
+          <div class="info-card-title">Правила чата</div>
+          <div class="info-card-body">Ознакомьтесь с правилами чата и последствиями за их нарушение.</div>
+        </div>
+        <div class="info-card" style="cursor:pointer" onclick="go('complaint',document.querySelector('[onclick*=complaint]'))">
+          <span class="info-card-icon">⚡</span>
+          <div class="info-card-title">Подать жалобу</div>
+          <div class="info-card-body">Пожаловаться на действия администратора. Рассматривается в течение 48 часов.</div>
+        </div>
+        <div class="info-card" style="cursor:pointer" onclick="go('mycomplaints',document.querySelector('[onclick*=mycomplaints]'))">
+          <span class="info-card-icon">📬</span>
+          <div class="info-card-title">Мои жалобы</div>
+          <div class="info-card-body">Посмотрите статус ваших жалоб и ответы администраторов.</div>
+        </div>
+        <div class="info-card">
+          <span class="info-card-icon">🛍️</span>
+          <div class="info-card-title">Как сделать заказ</div>
+          <div class="info-card-body">Пишите владельцу @darknesss43 (Вика) или администратору @lydnk (Тимур).
+
+📊 Прайс: t.me/vapeneonVP/3</div>
+        </div>
+        <div class="info-card">
+          <span class="info-card-icon">🔐</span>
+          <div class="info-card-title">Безопасные сделки</div>
+          <div class="info-card-body">/start в боте → «🔐 Безопасная сделка»
+
+Гарант заморозит деньги до подтверждения.
+Комиссия: 8%</div>
+        </div>
+        <div class="info-card">
+          <span class="info-card-icon">🤖</span>
+          <div class="info-card-title">Наш бот</div>
+          <div class="info-card-body">Бот помогает с жалобами, безопасными сделками и модерацией.
+
+⚠️ Участникам чата взаимодействие с ботом запрещено.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RULES -->
+  <div class="page" id="page-rules">
+    <div class="page-header"><div><div class="page-title">Правила чата</div><div class="page-sub">Нарушение правил влечёт предупреждения, мут или бан</div></div></div>
+    <div class="section"><div class="rules-grid" id="rules-grid"></div></div>
+    <div class="section" style="padding-top:0"><div class="section-title">ℹ️ Дополнительная информация</div><div class="info-grid" id="info-grid"></div></div>
+  </div>
+
+  <!-- COMPLAINT FORM -->
+  <div class="page" id="page-complaint">
+    <div class="page-header"><div><div class="page-title">Подать жалобу</div><div class="page-sub">На администратора чата · рассматривается до 48 часов</div></div></div>
+    <div class="section">
+      <div class="form-card complaint-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Ваш @username в Telegram</label>
+            <input class="form-input" id="fc-user" placeholder="@username">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Ваш Telegram ID (для уведомлений)</label>
+            <input class="form-input" id="fc-tgid" type="number" placeholder="123456789">
+          </div>
+          <div class="form-group">
+            <label class="form-label">@username администратора</label>
+            <input class="form-input" id="fc-admin" placeholder="@admin">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Тип жалобы</label>
+            <select class="form-select" id="fc-type">
+              <option value="abuse">Злоупотребление полномочиями</option>
+              <option value="unfair_ban">Несправедливый бан / мут</option>
+              <option value="inaction">Бездействие</option>
+              <option value="rudeness">Грубость / Неуважение</option>
+              <option value="other">Другое</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Краткое описание (одна фраза)</label>
+            <input class="form-input" id="fc-desc" placeholder="Суть проблемы кратко">
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Подробный текст жалобы</label>
+            <textarea class="form-textarea" id="fc-text" placeholder="Опишите ситуацию подробно: что произошло, когда, при каких обстоятельствах..."></textarea>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Ссылка на доказательства (скриншот, сообщение)</label>
+            <input class="form-input" id="fc-evidence" placeholder="https://t.me/...  (необязательно)">
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;align-items:center">
+          <button class="btn-primary" id="submit-btn" onclick="submitComplaint()">📨 Отправить жалобу</button>
+          <span style="font-size:9px;color:var(--text3)">Администраторы получат уведомление в Telegram</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MY COMPLAINTS -->
+  <div class="page" id="page-mycomplaints">
+    <div class="page-header"><div><div class="page-title">Мои жалобы</div><div class="page-sub">Введите ваш @username чтобы увидеть статус жалоб</div></div></div>
+    <div class="section">
+      <div class="form-card" style="margin-bottom:20px">
+        <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
+          <div class="form-group" style="flex:1;min-width:200px">
+            <label class="form-label">Ваш @username в Telegram</label>
+            <input class="form-input" id="mc-username" placeholder="@username" onkeydown="if(event.key==='Enter')loadMyComplaints()">
+          </div>
+          <button class="btn-primary" onclick="loadMyComplaints()" style="flex-shrink:0">🔍 Найти</button>
+        </div>
+      </div>
+      <div id="my-complaints-list"></div>
+    </div>
+  </div>
+
+  <!-- ADMIN DASHBOARD -->
+  <div class="page" id="page-dashboard">
+    <div class="page-header">
+      <div><div class="page-title">Обзор</div><div class="page-sub">Обновлено: <span id="last-update">—</span></div></div>
+      <button class="btn-secondary" onclick="loadDashboard()" style="font-size:10px;padding:9px 18px">⟳ Обновить</button>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-icon">📨</div><div class="stat-label">Жалобы сегодня</div><div class="stat-value" id="s-complaints">—</div></div>
+      <div class="stat-card"><div class="stat-icon">⏳</div><div class="stat-label">Ожидают рассмотрения</div><div class="stat-value" id="s-pending">—</div><div class="stat-delta neg" id="s-pending-hint"></div></div>
+      <div class="stat-card"><div class="stat-icon">🔇</div><div class="stat-label">Активных мутов</div><div class="stat-value" id="s-mutes">—</div></div>
+      <div class="stat-card"><div class="stat-icon">⛔</div><div class="stat-label">Активных банов</div><div class="stat-value" id="s-bans">—</div></div>
+      <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-label">Пользователей</div><div class="stat-value" id="s-users">—</div></div>
+    </div>
+    <div class="section">
+      <div class="section-title">Активность жалоб (7 дней)</div>
+      <div class="chart-wrap"><div class="chart-bars" id="chart-bars"></div><div class="chart-labels" id="chart-labels"></div></div>
+    </div>
+    <div class="section" style="padding-top:0">
+      <div class="section-title">Последние жалобы</div>
+      <div class="table-wrap" style="overflow-x:auto">
+        <table><thead><tr><th>#</th><th>Заявитель</th><th>На кого</th><th>Дата</th><th>Статус</th><th></th></tr></thead>
+        <tbody id="dash-tbody"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN ALL COMPLAINTS -->
+  <div class="page" id="page-allcomplaints">
+    <div class="page-header"><div><div class="page-title">Все жалобы</div><div class="page-sub">Рассмотрение жалоб пользователей</div></div></div>
+    <div class="section">
+      <div class="table-wrap" style="overflow-x:auto">
+        <div class="table-toolbar">
+          <input class="search-input" id="c-search" placeholder="🔍  Поиск..." oninput="debounceComplaints()">
+          <button class="filter-btn active" onclick="setCFilter('all',this)">Все</button>
+          <button class="filter-btn" onclick="setCFilter('pending',this)">Ожидание</button>
+          <button class="filter-btn" onclick="setCFilter('resolved',this)">Решено</button>
+          <button class="filter-btn" onclick="setCFilter('rejected',this)">Отклонено</button>
+        </div>
+        <table><thead><tr><th>#ID</th><th>Заявитель</th><th>На кого</th><th>Тип</th><th>Дата</th><th>Статус</th><th>Действия</th></tr></thead>
+        <tbody id="all-complaints-tbody"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN USERS -->
+  <div class="page" id="page-users">
+    <div class="page-header"><div><div class="page-title">Пользователи</div><div class="page-sub">Зарегистрированные в боте</div></div></div>
+    <div class="section">
+      <div class="table-wrap" style="overflow-x:auto">
+        <div class="table-toolbar">
+          <input class="search-input" id="u-search" placeholder="🔍  Поиск..." oninput="loadUsers()">
+        </div>
+        <table><thead><tr><th>ID</th><th>Username</th><th>Имя</th><th>Варны</th><th>Мут</th><th>Бан</th><th>Активность</th></tr></thead>
+        <tbody id="users-tbody"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN LOGS -->
+  <div class="page" id="page-logs">
+    <div class="page-header"><div><div class="page-title">Журнал модерации</div></div></div>
+    <div class="section">
+      <div class="table-wrap" style="overflow-x:auto">
+        <div class="table-toolbar">
+          <button class="filter-btn active" onclick="setLFilter('all',this)">Всё</button>
+          <button class="filter-btn" onclick="setLFilter('mute',this)">Мут</button>
+          <button class="filter-btn" onclick="setLFilter('ban',this)">Бан</button>
+          <button class="filter-btn" onclick="setLFilter('warn',this)">Варн</button>
+        </div>
+        <table><thead><tr><th>Время</th><th>Тип</th><th>Кто выдал</th><th>Кому</th><th>Причина</th><th>Истекает</th></tr></thead>
+        <tbody id="logs-tbody"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal auth-modal">
+    <div class="modal-close" onclick="closeAuthModal()">✕</div>
+    <div class="modal-title">Вход для администраторов</div>
+    <div class="form-group" style="margin-bottom:12px">
+      <label class="form-label">Telegram username</label>
+      <input class="form-input" id="auth-user" placeholder="Логин" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <div class="form-group" style="margin-bottom:20px">
+      <label class="form-label">Пароль</label>
+      <input class="form-input" id="auth-pass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <div style="display:flex;gap:10px">
+      <button class="btn-primary" id="login-btn" onclick="doLogin()" style="flex:1">🔐 Войти</button>
+      <button class="btn-secondary" onclick="closeAuthModal()">Отмена</button>
+    </div>
+    <div id="auth-error" style="margin-top:12px;font-size:10px;color:var(--red);display:none"></div>
+  </div>
+</div>
+
+<!-- REVIEW MODAL -->
+<div class="modal-overlay" id="review-modal">
+  <div class="modal">
+    <div class="modal-close" onclick="closeReviewModal()">✕</div>
+    <div class="modal-title" id="review-modal-title">Рассмотреть жалобу</div>
+    <div id="review-modal-body"></div>
+    <div style="margin-top:16px">
+      <div class="form-group" style="margin-bottom:14px">
+        <label class="form-label">Комментарий администратора (отправится пользователю в Telegram)</label>
+        <textarea class="form-textarea" id="review-comment" placeholder="Опишите решение..."></textarea>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap" id="review-actions"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-icon" id="t-icon">🔔</div>
+  <div><div class="toast-title" id="t-title"></div><div class="toast-msg" id="t-msg"></div></div>
+  <div class="toast-bar"></div>
+</div>
+
+<script>
+'use strict';
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let isAdmin = false;
+let adminName = '';
+let curPage  = 'home';
+let cFilter  = 'all';
+let lFilter  = 'all';
+let cSearchT;
+let reviewId = null;
+
+// ─── NAVIGATION ──────────────────────────────────────────────────────────────
+function go(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if (el) el.classList.add('active');
+  curPage = id;
+  if (id === 'rules')         renderRules();
+  if (id === 'dashboard')     loadDashboard();
+  if (id === 'allcomplaints') loadAllComplaints();
+  if (id === 'users')         loadUsers();
+  if (id === 'logs')          loadLogs();
+}
+
+// ─── API ─────────────────────────────────────────────────────────────────────
+const API = async (path, opts = {}) => {
+  const res = await fetch('/api' + path, {
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    ...opts,
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: res.statusText }));
+    throw new Error(err.detail || res.statusText);
+  }
+  return res.json();
+};
+
+// ─── AUTH ────────────────────────────────────────────────────────────────────
+async function checkAuth() {
+  try {
+    const r = await API('/auth/me');
+    if (r.admin) {
+      isAdmin = true; adminName = r.username;
+      showAdminUI();
+    }
+  } catch {}
+}
+
+function showAdminUI() {
+  document.getElementById('admin-nav-section').style.display = '';
+  ['nav-dashboard','nav-allcomplaints','nav-users','nav-logs'].forEach(id => {
+    document.getElementById(id).style.display = '';
+  });
+  // Update top-right button
+  const dot = document.getElementById('pill-dot2');
+  if(dot) { dot.style.background='var(--green)'; dot.style.boxShadow='0 0 6px var(--green)'; }
+  const lbl = document.getElementById('pill-label');
+  if(lbl) lbl.textContent = '👤 ' + adminName + ' · Выйти';
+  const btn = document.getElementById('admin-top-btn');
+  if(btn) { btn.style.borderColor='rgba(16,185,129,0.3)'; btn.style.color='var(--green)'; }
+  // Update sidebar dot
+  const sdot = document.getElementById('pill-dot');
+  if(sdot) { sdot.style.background='var(--green)'; sdot.style.boxShadow='0 0 6px var(--green)'; sdot.style.animation='blink 2s infinite'; }
+  const sname = document.getElementById('pill-name');
+  if(sname) sname.textContent = adminName;
+  refreshBadge();
+}
+
+function hideAdminUI() {
+  isAdmin = false; adminName = '';
+  document.getElementById('admin-nav-section').style.display = 'none';
+  ['nav-dashboard','nav-allcomplaints','nav-users','nav-logs'].forEach(id => {
+    document.getElementById(id).style.display = 'none';
+  });
+  // Reset top-right button
+  const dot = document.getElementById('pill-dot2');
+  if(dot) { dot.style.background='var(--text3)'; dot.style.boxShadow='none'; }
+  const lbl = document.getElementById('pill-label');
+  if(lbl) lbl.textContent = 'Авторизация для администратора';
+  const btn = document.getElementById('admin-top-btn');
+  if(btn) { btn.style.borderColor='rgba(255,255,255,0.08)'; btn.style.color='var(--text3)'; }
+  // Reset sidebar
+  const sdot = document.getElementById('pill-dot');
+  if(sdot) { sdot.style.background='var(--text3)'; sdot.style.boxShadow='none'; sdot.style.animation='none'; }
+  const sname = document.getElementById('pill-name');
+  if(sname) sname.textContent = '';
+  if (['dashboard','allcomplaints','users','logs'].includes(curPage)) {
+    go('home', document.querySelector('[onclick*="home"]'));
+  }
+}
+
+// Bot username - replace with your actual bot username
+const BOT_USERNAME = 'TheVapeNeonBot';
+
+function openAuthModal() {
+  if (isAdmin) {
+    if (confirm('Выйти из панели администратора?')) { doLogout(); return; }
+    return;
+  }
+  showChoose();
+  document.getElementById('auth-modal').classList.add('open');
+}
+
+function showChoose() {
+  document.getElementById('auth-step-choose').style.display = '';
+  document.getElementById('auth-step-user').style.display = 'none';
+  document.getElementById('auth-step-admin').style.display = 'none';
+}
+
+function chooseUser() {
+  // Generate a unique token and link to bot with it
+  const token = Math.random().toString(36).slice(2,10).toUpperCase();
+  sessionStorage.setItem('auth_token', token);
+  document.getElementById('bot-auth-link').href =
+    'https://t.me/' + BOT_USERNAME + '?start=webauth_' + token;
+  document.getElementById('auth-step-choose').style.display = 'none';
+  document.getElementById('auth-step-user').style.display = '';
+}
+
+function chooseAdmin() {
+  document.getElementById('auth-step-choose').style.display = 'none';
+  document.getElementById('auth-step-admin').style.display = '';
+  setTimeout(() => document.getElementById('auth-user').focus(), 200);
+}
+
+function closeAuthModal() {
+  document.getElementById('auth-modal').classList.remove('open');
+  const err = document.getElementById('auth-error');
+  if(err) err.style.display = 'none';
+  const u = document.getElementById('auth-user');
+  if(u) u.value = '';
+  const p = document.getElementById('auth-pass');
+  if(p) p.value = '';
+  showChoose();
+}
+
+async function doLogin() {
+  const btn  = document.getElementById('login-btn');
+  const user = document.getElementById('auth-user').value.trim();
+  const pass = document.getElementById('auth-pass').value;
+  const err  = document.getElementById('auth-error');
+  if (!user || !pass) { showAuthError('Заполните все поля'); return; }
+  btn.disabled = true; btn.textContent = '⟳ Проверка...';
+  err.style.display = 'none';
+  try {
+    const r = await API('/auth/login', { method:'POST', body: JSON.stringify({username:user, password:pass}) });
+    isAdmin = true; adminName = r.username;
+    closeAuthModal();
+    showAdminUI();
+    toast('✅', `Добро пожаловать, ${adminName}!`, 'Панель администратора открыта');
+    go('dashboard', document.getElementById('nav-dashboard'));
+  } catch(e) {
+    showAuthError(e.message);
+  } finally {
+    btn.disabled = false; btn.textContent = '🔐 Войти';
+  }
+}
+
+async function doLogout() {
+  try { await API('/auth/logout', { method:'POST' }); } catch {}
+  hideAdminUI();
+  toast('👋', 'Выход выполнен', '');
+}
+
+function showAuthError(msg) {
+  const el = document.getElementById('auth-error');
+  el.textContent = msg; el.style.display = 'block';
+}
+
+// ─── COMPLAINT FORM ───────────────────────────────────────────────────────────
+async function submitComplaint() {
+  const btn  = document.getElementById('submit-btn');
+  const user = document.getElementById('fc-user').value.trim();
+  const tgid = parseInt(document.getElementById('fc-tgid').value) || null;
+  const admin= document.getElementById('fc-admin').value.trim();
+  const type = document.getElementById('fc-type').value;
+  const desc = document.getElementById('fc-desc').value.trim();
+  const text = document.getElementById('fc-text').value.trim();
+  const ev   = document.getElementById('fc-evidence').value.trim();
+
+  if (!user || !admin || !desc || !text) {
+    toast('⚠️', 'Заполните поля', 'Укажите username, администратора, описание и текст жалобы');
+    return;
+  }
+  btn.disabled = true; btn.textContent = '⟳ Отправка...';
+  try {
+    const r = await API('/complaints/submit', {
+      method: 'POST',
+      body: JSON.stringify({ username:user, tg_id:tgid, admin_username:admin,
+        complaint_type:type, description:desc, complaint_text:text, evidence:ev||null }),
+    });
+    toast('✅', 'Жалоба отправлена!', `#${r.id} — администраторы уже получили уведомление в Telegram`);
+    ['fc-user','fc-tgid','fc-admin','fc-desc','fc-text','fc-evidence'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    if (isAdmin) refreshBadge();
+  } catch(e) {
+    toast('❌', 'Ошибка', e.message);
+  } finally {
+    btn.disabled = false; btn.textContent = '📨 Отправить жалобу';
+  }
+}
+
+// ─── MY COMPLAINTS ────────────────────────────────────────────────────────────
+async function loadMyComplaints() {
+  const username = document.getElementById('mc-username').value.trim();
+  const list = document.getElementById('my-complaints-list');
+  if (!username) { toast('⚠️','Введите username',''); return; }
+  list.innerHTML = `<div style="padding:20px;text-align:center"><span class="spinner"></span></div>`;
+  try {
+    const data = await API(`/my-complaints?username=${encodeURIComponent(username)}`);
+    if (!data.length) {
+      list.innerHTML = `<div class="empty"><div class="empty-icon">📭</div><div class="empty-text">Жалобы не найдены для @${username.replace('@','')}</div></div>`;
+      return;
+    }
+    list.innerHTML = data.map(c => `
+      <div class="my-complaint-card">
+        <div class="mc-header">
+          <div class="mc-id">Жалоба #${c.id}</div>
+          <span class="badge badge-${c.status}">${fmtStatus(c.status)}</span>
+        </div>
+        <div class="mc-meta">На: ${c.admin_username} · ${fmtType(c.complaint_type)} · ${fmtDate(c.created_at)}</div>
+        <div class="mc-desc">${c.description}</div>
+        ${c.admin_comment ? `
+          <div class="mc-comment">
+            <div class="mc-comment-label">💬 Ответ администратора ${c.handled_at ? '· '+fmtDate(c.handled_at) : ''}</div>
+            ${c.admin_comment}
+          </div>
+        ` : `<div style="font-size:10px;color:var(--text3);margin-top:8px">⏳ Ожидает рассмотрения администраторами</div>`}
+      </div>
+    `).join('');
+  } catch(e) {
+    list.innerHTML = `<div class="empty"><div class="empty-icon">❌</div><div class="empty-text">${e.message}</div></div>`;
+  }
+}
+
+// ─── ADMIN DASHBOARD ──────────────────────────────────────────────────────────
+async function loadDashboard() {
+  if (!isAdmin) return;
+  try {
+    const s = await API('/stats');
+    document.getElementById('s-complaints').textContent = s.complaints_today;
+    document.getElementById('s-pending').textContent    = s.pending;
+    document.getElementById('s-mutes').textContent      = s.active_mutes;
+    document.getElementById('s-bans').textContent       = s.active_bans;
+    document.getElementById('s-users').textContent      = s.total_users;
+    document.getElementById('s-pending-hint').textContent = s.pending > 0 ? '⚠ Требует внимания' : '✓ Всё рассмотрено';
+    document.getElementById('last-update').textContent  = new Date().toLocaleTimeString('ru');
+    document.getElementById('complaint-badge').textContent = s.pending;
+    renderChart(s.chart);
+    loadDashTable();
+  } catch(e) { toast('❌','Ошибка',e.message); }
+}
+
+function renderChart(data) {
+  const bars = document.getElementById('chart-bars');
+  const lbls = document.getElementById('chart-labels');
+  bars.innerHTML = ''; lbls.innerHTML = '';
+  const days = [];
+  for (let i=6; i>=0; i--) {
+    const d = new Date(); d.setDate(d.getDate()-i);
+    const key = d.toISOString().slice(0,10);
+    const found = data.find(x => x.day === key);
+    days.push({ label: d.toLocaleDateString('ru',{weekday:'short'}), count: found ? found.count : 0 });
+  }
+  const max = Math.max(...days.map(d => d.count), 1);
+  days.forEach((d, i) => {
+    const pct = Math.max(8, (d.count/max)*100);
+    const bar = document.createElement('div');
+    bar.className = 'chart-bar' + (i===6?' hi':'');
+    bar.style.height = pct+'%';
+    bar.innerHTML = `<div class="chart-bar-tip">${d.count} жалоб</div>`;
+    bars.appendChild(bar);
+    const lbl = document.createElement('div');
+    lbl.className = 'chart-label'; lbl.textContent = d.label;
+    lbls.appendChild(lbl);
+  });
+}
+
+async function loadDashTable() {
+  const tbody = document.getElementById('dash-tbody');
+  try {
+    const data = await API('/complaints?status=all');
+    const latest = data.slice(0,5);
+    if (!latest.length) { tbody.innerHTML = emptyRow(6,'✨','Жалоб пока нет'); return; }
+    tbody.innerHTML = latest.map(c => `<tr>
+      <td>#${c.id}</td><td>${c.username}</td><td>${c.admin_username}</td>
+      <td>${fmtDate(c.created_at)}</td>
+      <td><span class="badge badge-${c.status}">${fmtStatus(c.status)}</span></td>
+      <td>${c.status==='pending'?`<button class="action-btn" onclick="openReview(${c.id})">Рассмотреть</button>`:'—'}</td>
+    </tr>`).join('');
+  } catch { tbody.innerHTML = emptyRow(6,'❌','Ошибка'); }
+}
+
+// ─── ALL COMPLAINTS (ADMIN) ───────────────────────────────────────────────────
+function debounceComplaints() {
+  clearTimeout(cSearchT);
+  cSearchT = setTimeout(loadAllComplaints, 350);
+}
+function setCFilter(f, btn) {
+  cFilter = f;
+  document.querySelectorAll('#page-allcomplaints .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  loadAllComplaints();
+}
+async function loadAllComplaints() {
+  if (!isAdmin) return;
+  const q = document.getElementById('c-search')?.value || '';
+  const tbody = document.getElementById('all-complaints-tbody');
+  tbody.innerHTML = `<tr><td colspan="7" style="padding:18px;text-align:center"><span class="spinner"></span></td></tr>`;
+  try {
+    const data = await API(`/complaints?status=${cFilter}&q=${encodeURIComponent(q)}`);
+    if (!data.length) { tbody.innerHTML = emptyRow(7,'📭','Жалобы не найдены'); return; }
+    tbody.innerHTML = data.map(c => `<tr>
+      <td>#${c.id}</td><td>${c.username}</td><td>${c.admin_username}</td>
+      <td>${fmtType(c.complaint_type)}</td><td>${fmtDate(c.created_at)}</td>
+      <td><span class="badge badge-${c.status}">${fmtStatus(c.status)}</span></td>
+      <td><button class="action-btn" onclick="openReview(${c.id})">👁 ${c.status==='pending'?'Рассмотреть':'Просмотр'}</button></td>
+    </tr>`).join('');
+  } catch(e) { tbody.innerHTML = emptyRow(7,'❌',e.message); }
+}
+
+// ─── REVIEW MODAL ────────────────────────────────────────────────────────────
+async function openReview(id) {
+  if (!isAdmin) return;
+  reviewId = id;
+  try {
+    const c = await API(`/complaints/${id}`);
+    document.getElementById('review-modal-title').textContent = `Жалоба #${c.id}`;
+    document.getElementById('review-modal-body').innerHTML = `
+      <div class="detail-row"><span class="detail-key">Заявитель</span><span class="detail-val">${c.username}</span></div>
+      <div class="detail-row"><span class="detail-key">На администратора</span><span class="detail-val">${c.admin_username}</span></div>
+      <div class="detail-row"><span class="detail-key">Тип</span><span class="detail-val">${fmtType(c.complaint_type)}</span></div>
+      <div class="detail-row"><span class="detail-key">Статус</span><span class="detail-val"><span class="badge badge-${c.status}">${fmtStatus(c.status)}</span></span></div>
+      <div class="detail-row"><span class="detail-key">Дата</span><span class="detail-val">${fmtDate(c.created_at)}</span></div>
+      <div style="margin-top:14px"><div class="form-label" style="margin-bottom:6px">Описание</div>
+        <div class="message-preview" style="max-height:80px">${c.description}</div></div>
+      <div style="margin-top:10px"><div class="form-label" style="margin-bottom:6px">Полный текст</div>
+        <div class="message-preview" style="max-height:100px">${c.complaint_text}</div></div>
+      ${c.evidence ? `<div class="detail-row" style="margin-top:10px"><span class="detail-key">Доказательства</span><span class="detail-val"><a href="${c.evidence}" target="_blank" style="color:var(--accent2)">${c.evidence}</a></span></div>` : ''}
+      ${c.admin_comment ? `<div style="margin-top:10px"><div class="form-label" style="margin-bottom:6px;color:var(--green)">Предыдущий ответ</div><div class="message-preview" style="border-color:rgba(16,185,129,0.2)">${c.admin_comment}</div></div>` : ''}
+    `;
+    document.getElementById('review-comment').value = c.admin_comment || '';
+    document.getElementById('review-actions').innerHTML = `
+      <button class="btn-primary" style="background:linear-gradient(135deg,var(--green),#059669)" onclick="doReview('resolved')">✓ Принять</button>
+      <button class="btn-secondary" onclick="doReview('rejected')" style="border-color:rgba(239,68,68,0.3)">✕ Отклонить</button>
+      <button class="btn-secondary" onclick="closeReviewModal()">Закрыть</button>
+    `;
+    document.getElementById('review-modal').classList.add('open');
+  } catch(e) { toast('❌','Ошибка',e.message); }
+}
+
+async function doReview(status) {
+  const comment = document.getElementById('review-comment').value.trim();
+  if (!comment) { toast('⚠️','Добавьте комментарий','Пользователь получит его в Telegram'); return; }
+  try {
+    await API(`/complaints/${reviewId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status, comment }),
+    });
+    closeReviewModal();
+    toast('✅', status==='resolved'?'Жалоба принята':'Жалоба отклонена', 'Уведомление отправлено пользователю в Telegram');
+    loadAllComplaints();
+    refreshBadge();
+    if (curPage === 'dashboard') loadDashboard();
+  } catch(e) { toast('❌','Ошибка',e.message); }
+}
+
+function closeReviewModal() {
+  document.getElementById('review-modal').classList.remove('open');
+  reviewId = null;
+}
+
+async function refreshBadge() {
+  try {
+    const s = await API('/stats');
+    document.getElementById('complaint-badge').textContent = s.pending;
+  } catch {}
+}
+
+// ─── USERS ───────────────────────────────────────────────────────────────────
+async function loadUsers() {
+  if (!isAdmin) return;
+  const q = document.getElementById('u-search')?.value || '';
+  const tbody = document.getElementById('users-tbody');
+  tbody.innerHTML = `<tr><td colspan="7" style="padding:18px;text-align:center"><span class="spinner"></span></td></tr>`;
+  try {
+    const data = await API(`/users?q=${encodeURIComponent(q)}`);
+    if (!data.length) { tbody.innerHTML = emptyRow(7,'👤','Нет данных'); return; }
+    tbody.innerHTML = data.map(u => `<tr>
+      <td><code style="font-size:9px">${u.user_id}</code></td>
+      <td>${u.username?'@'+u.username:'—'}</td>
+      <td>${u.first_name||''} ${u.last_name||''}</td>
+      <td>${u.warns>0?`<span class="badge badge-pending">${u.warns}</span>`:'0'}</td>
+      <td>${u.muted?'<span class="badge badge-rejected">Да</span>':'—'}</td>
+      <td>${u.banned?'<span class="badge badge-rejected">Да</span>':'—'}</td>
+      <td>${fmtDate(u.last_seen)}</td>
+    </tr>`).join('');
+  } catch(e) { tbody.innerHTML = emptyRow(7,'❌',e.message); }
+}
+
+// ─── LOGS ────────────────────────────────────────────────────────────────────
+function setLFilter(f, btn) {
+  lFilter = f;
+  document.querySelectorAll('#page-logs .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  loadLogs();
+}
+async function loadLogs() {
+  if (!isAdmin) return;
+  const tbody = document.getElementById('logs-tbody');
+  tbody.innerHTML = `<tr><td colspan="6" style="padding:18px;text-align:center"><span class="spinner"></span></td></tr>`;
+  try {
+    const data = await API(`/logs?kind=${lFilter}`);
+    if (!data.length) { tbody.innerHTML = emptyRow(6,'📋','Записей нет'); return; }
+    const colors = {warn:'badge-pending',mute:'badge-info',ban:'badge-rejected'};
+    tbody.innerHTML = data.map(l => `<tr>
+      <td>${fmtDate(l.ts)}</td>
+      <td><span class="badge ${colors[l.kind]||''}">${l.kind.toUpperCase()}</span></td>
+      <td><code style="font-size:9px">${l.issued_by}</code></td>
+      <td><code style="font-size:9px">${l.user_id}</code></td>
+      <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${l.reason||'—'}</td>
+      <td>${l.expires_at?fmtDate(l.expires_at):'—'}</td>
+    </tr>`).join('');
+  } catch(e) { tbody.innerHTML = emptyRow(6,'❌',e.message); }
+}
+
+// ─── RULES DATA ───────────────────────────────────────────────────────────────
+const RULES_DATA = [
+  {num:'01',title:'Нарушение правил отправки объявлений',color:'#7C3AED',body:'• Максимум 1 объявление в 1.5 часа
+• Максимум 5 объявлений в день
+• Редактирование — только в тексте самого объявления
+• Минимум 30 сообщений от других перед повтором',penalty:'🔥 Мут на 1–3 дня по причине «НПОО»'},
+  {num:'02',title:'Упоминание сторонних вейп-шопов',color:'#EF4444',body:'• За каждое упоминание: 1 предупреждение
+• 3 предупреждения → бан',penalty:'🔥 Предупреждение → Бан'},
+  {num:'03',title:'Использование бота участниками',color:'#F59E0B',body:'• Любое взаимодействие с ботом запрещено рядовым участникам',penalty:'🔥 Автоматический мут на 1 день'},
+  {num:'04',title:'Реклама запрещённых веществ',color:'#EF4444',body:'• Категорически запрещена любая реклама запрещённых веществ',penalty:'🔥 Перманентный бан'},
+  {num:'05',title:'Конкуренция и перепродажа',color:'#06B6D4',body:'• Запрещена конкуренция или перепродажа нового товара',penalty:'🔥 Мут на 7 дней'},
+  {num:'06',title:'Беспричинное упоминание администраторов',color:'#8B5CF6',body:'• Нельзя тегать без причины
+• Для вопросов — пишите в общий чат
+• Для жалоб — /report
+• Исключение: администраторы могут упоминать друг друга',penalty:'🔥 1 предупреждение'},
+  {num:'07',title:'Слив личных данных',color:'#EF4444',body:'• Публикация фото, видео, деанон без согласия запрещены',penalty:'🔥 Бан на 30 дней'},
+  {num:'08',title:'Флуд и спам',color:'#F59E0B',body:'• Повторяющиеся сообщения, символы, цепочки эмодзи',penalty:'🔥 Предупреждение → Мут 1–7 дней'},
+  {num:'09',title:'Оскорбления и токсичность',color:'#EF4444',body:'• Прямые оскорбления участников
+• Унизительные высказывания
+• Призывы к конфликтам и травле',penalty:'🔥 Предупреждение → Мут до 3 дней'},
+  {num:'10',title:'Запрещённый медиаконтент',color:'#EC4899',body:'• Шокирующие или непристойные фото/видео
+• Контент 18+',penalty:'🔥 Мут до 7 дней → Бан при повторе'},
+  {num:'11',title:'Технические нарушения',color:'#64748B',body:'• Взлом и обход ограничений
+• Несколько аккаунтов для обхода наказаний',penalty:'🔥 Бан от 30 дней до перманентного'},
+  {num:'12',title:'Политика и религия',color:'#475569',body:'• Острые политические дискуссии
+• Религиозные провокации
+• Экстремистская пропаганда',penalty:'🔥 Мут 7 дней → Бан'},
+];
+const INFO_DATA = [
+  {icon:'🛍️',title:'Как сделать заказ',body:'Пишите владельцу @darknesss43 (Вика) или администратору @lydnk (Тимур).
+
+1️⃣ Укажите что хотите
+2️⃣ Оплатите
+3️⃣ Доставка в конце недели
+
+📊 Прайс: t.me/vapeneonVP/3'},
+  {icon:'⚖️',title:'Жалобы и обжалование',body:'На пользователя: /report [причина] в ответ на сообщение
+На администратора: через форму на этом сайте
+
+⏰ Рассмотрение: до 24ч / 48ч
+⚠️ Ложные жалобы наказуемы'},
+  {icon:'🔐',title:'Безопасные сделки',body:'/start в боте → «🔐 Безопасная сделка»
+
+Гарант заморозит деньги до подтверждения получения.
+
+💼 Комиссия: 8% от суммы'},
+  {icon:'⚠️',title:'Система наказаний',body:'Варн — предупреждение, истекает через 7 дней
+Мут — временный запрет отправки сообщений
+Бан — исключение из чата
+
+3 варна = бан. Решение владельцев окончательно.'},
+];
+
+function renderRules() {
+  document.getElementById('rules-grid').innerHTML = RULES_DATA.map(r => `
+    <div class="rule-card">
+      <div class="rule-card-accent" style="background:${r.color}"></div>
+      <div class="rule-num">Правило ${r.num}</div>
+      <div class="rule-title">${r.title}</div>
+      <div class="rule-body">${r.body}</div>
+      <div class="rule-penalty">${r.penalty}</div>
+    </div>`).join('');
+  document.getElementById('info-grid').innerHTML = INFO_DATA.map(i => `
+    <div class="info-card">
+      <span class="info-card-icon">${i.icon}</span>
+      <div class="info-card-title">${i.title}</div>
+      <div class="info-card-body">${i.body}</div>
+    </div>`).join('');
+}
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function fmtDate(s) {
+  if (!s) return '—';
+  const d = new Date(s); if(isNaN(d)) return s;
+  return d.toLocaleDateString('ru')+' '+d.toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'});
+}
+function fmtStatus(s){ return{pending:'Ожидание',resolved:'Решено',rejected:'Отклонено'}[s]||s }
+function fmtType(t){ return{abuse:'Злоупотребление',unfair_ban:'Несправ. наказание',inaction:'Бездействие',rudeness:'Грубость',other:'Другое'}[t]||t }
+function emptyRow(cols,icon,text){ return`<tr><td colspan="${cols}"><div class="empty"><div class="empty-icon">${icon}</div><div class="empty-text">${text}</div></div></td></tr>`}
+
+let toastT;
+function toast(icon, title, msg) {
+  const el = document.getElementById('toast');
+  document.getElementById('t-icon').textContent = icon;
+  document.getElementById('t-title').textContent = title;
+  document.getElementById('t-msg').textContent = msg;
+  const bar = el.querySelector('.toast-bar');
+  bar.style.animation='none'; bar.offsetHeight; bar.style.animation='';
+  el.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(()=>el.classList.remove('show'), 3500);
+}
+
+// Close modals on backdrop click
+document.getElementById('auth-modal').addEventListener('click', e => { if(e.target===document.getElementById('auth-modal')) closeAuthModal(); });
+document.getElementById('review-modal').addEventListener('click', e => { if(e.target===document.getElementById('review-modal')) closeReviewModal(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape'){closeAuthModal();closeReviewModal();} });
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  renderRules();
+  checkAuth();
+});
+</script>
+</body>
+</html>
