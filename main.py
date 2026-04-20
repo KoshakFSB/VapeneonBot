@@ -4283,7 +4283,7 @@ async def cmd_start_with_reviews(message: Message, command: CommandObject, state
         # Подтверждаем токен на сервере сайта
         import httpx
         # URL сайта — замените на ваш реальный домен
-        SITE_URL = "https://2nsf-it7o-587d.gw-1a.dockhost.net/"
+        SITE_URL = "https://2nsf-it7o-587d.gw-1a.dockhost.net"
         try:
             async with httpx.AsyncClient(timeout=5) as client:
                 await client.post(f"{SITE_URL}/api/auth/user-confirm", json={
