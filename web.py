@@ -27,7 +27,7 @@ CHAT_ID   = int(os.getenv("CHAT_ID", "0"))
 DB_PATH   = "data/bot_database.db"
 
 # Статические аккаунты из env (fallback если нет в БД)
-_raw = os.getenv("ADMIN_ACCOUNTS", "KoshakFSB:JBoNViF5,rinya08:C386gh781,darknesss43:Ha9mapvz")
+_raw = os.getenv("ADMIN_ACCOUNTS", "KoshakFSB:JBoNViF5,darknesss43:Ha9mapvz")
 STATIC_ADMIN_ACCOUNTS: dict = {}
 for pair in _raw.split(","):
     if ":" in pair:
