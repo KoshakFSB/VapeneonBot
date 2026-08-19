@@ -30,7 +30,7 @@ CHAT_ID   = int(os.getenv("CHAT_ID", "0"))
 
 # ─── AI-ПОМОЩНИК (Groq) ───────────────────────────────────────────────────────
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
-GROQ_MODEL   = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
+GROQ_MODEL   = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
 GROQ_URL     = "https://api.groq.com/openai/v1/chat/completions"
 
 # Username, куда AI отправляет пользователя, если в базе знаний нет ответа.
