@@ -8,5 +8,6 @@ COPY web.py .
 COPY dashboard.html .
 COPY favicon2.png .
 COPY favicon2.ico .
+COPY docs/ ./docs/
 
 CMD ["uvicorn", "web:app", "--host", "0.0.0.0", "--port", "8080"]
