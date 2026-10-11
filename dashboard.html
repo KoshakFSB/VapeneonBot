@@ -3972,7 +3972,7 @@ document.querySelectorAll('.nav-item').forEach(function(item){
       });
       const data = await resp.json();
       if (data && data.ok){
-        aiAddMsg('bot', '✅ Спасибо! Баг зафиксирован (#' + data.id + ') и передан разработчику.\n\nЕсли это срочно — можешь также написать @vavapipo напрямую.');
+        aiAddMsg('bot', '✅ Спасибо! Баг зафиксирован (#' + data.id + ') и передан разработчику.\n\nЕсли это срочно — можешь также написать @KoshakFSB напрямую.');
       } else {
         aiAddMsg('bot', 'Не удалось отправить баг-репорт. Попробуй ещё раз чуть позже.');
       }
