@@ -2223,7 +2223,7 @@ async def is_chat_admin_or_bot_admin(user_id: int, chat_id: int = None) -> bool:
     return await is_chat_admin(user_id, chat_id)
 
 
-@dp.error(ExceptionTypeFilter(AdminCheckUnavailable))
+@dp.errors(ExceptionTypeFilter(AdminCheckUnavailable))
 async def on_admin_check_unavailable(event: ErrorEvent):
     """Telegram недоступен и права проверить не удалось: команду не выполняем,
     никого не наказываем, просто просим повторить позже."""
